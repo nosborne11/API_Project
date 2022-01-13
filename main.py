@@ -6,6 +6,14 @@ from typing import Union
 from starter.ml import model as model_lib
 from starter. ml import data as data_lib
 
+import os
+
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
+
 #####Import process_data
 process_data=data_lib.process_data
 
