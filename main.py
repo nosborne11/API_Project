@@ -126,7 +126,7 @@ async def say_hello():
 
 ######Post 
 @app.post("/items/")
-async def post_items(item: Feature_List)
+async def post_items(item: Feature_List):
     _dict=Creat_Dict(item)
     data=Create_Panda_DF(_dict)
     Out=Prediction_Pipe(data,encoder,Lb,cat_features)
