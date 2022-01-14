@@ -30,7 +30,7 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
-        pytest test_api/test_api.py
+        pytest test.py
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
