@@ -41,7 +41,7 @@ Convert_Dict={
 
 
 ###Load Encoder, Model, 1b
-with open("model/starter/model.pickle", "rb") as input_file:
+with open("model/model.pickle", "rb") as input_file:
     model=pickle.load(input_file)
 with open("model/encoder.pickle", "rb") as input_file:
     encoder=pickle.load(input_file)
