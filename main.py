@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import pandas as pd
 import pickle
 from pydantic import BaseModel
+from fastapi import Body
 from typing import Union 
 from starter.ml import model as model_lib
 from starter. ml import data as data_lib
@@ -98,7 +99,7 @@ def Prediction_Pipe(data_download,encoder_download,lb_download,cat_features):
     return list(lb_download.inverse_transform(res))
 
 ######test input#######
-Input=Input={'age': [52],
+Input={'age': [52],
  'workclass': ['Self-emp-inc'],
  'fnlgt': [287927],
  'education': ['HS-grad'],
@@ -114,6 +115,7 @@ Input=Input={'age': [52],
  'native-country': ['United-States']}
 
 
+
 # Instantiate the app.
 app = FastAPI()
 
@@ -124,7 +126,7 @@ async def say_hello():
 
 ######Post 
 @app.post("/items/")
-async def post_items(item: Feature_List):
+async def post_items(item: Feature_List)
     _dict=Creat_Dict(item)
     data=Create_Panda_DF(_dict)
     Out=Prediction_Pipe(data,encoder,Lb,cat_features)
