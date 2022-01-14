@@ -42,10 +42,14 @@ X_test, y_test, encoder, lb_test = process_data(
 # Train and save a model.
 model=train_model(X_train,y_train)
 
-###Save Model
-with open(r"model.pickle", "wb") as output_file:
+###Save Model Encoder 1b
+with open(r"../model/model.pickle", "wb") as output_file:
     pickle.dump(model,file=output_file)
-    
+with open(r"../model/encoder.pickle", "wb") as output_file:
+    pickle.dump(encoder,file=output_file)
+with open(r"../model/1b.pickle", "wb") as output_file:
+    pickle.dump(lb_train,file=output_file)
+
 #####Prediction Results
 preds=inference(model, X_test)
 res=compute_model_metrics(lb_train.transform(y_test).ravel(),preds)
@@ -53,9 +57,4 @@ print(f'''precision: {res[0]}''')
 print(f'''recall: {res[1]}''')
 print(f'''fbeta: {res[2]}''')
 
-###Save Prediction Results
-with open(r"result.pickle", "wb") as output_file:
-    pickle.dump(res,file=output_file)
-    
-    
     

@@ -1,0 +1,3 @@
+outs:
+- md5: d0d96f21ac85212e72db80bb2be30707
+  path: model.pickle
