@@ -120,7 +120,7 @@ app = FastAPI()
 # Define a GET on the specified endpoint.
 @app.get("/")
 async def say_hello():
-    return {"Nick is the best ML Engineer is the world!!!"}
+    return {"Welcome to my Machine Learning API"}
 
 ######Post 
 @app.post("/items/")
