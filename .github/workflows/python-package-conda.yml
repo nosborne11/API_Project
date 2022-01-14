@@ -18,7 +18,7 @@ jobs:
         echo $CONDA/bin >> $GITHUB_PATH
     - name: Install dependencies
       run: |
-         conda env update --file requirements_git.txt --name base
+        conda env update --file requirements_git.txt --name base
         pip install fastapi
     - name: Lint with flake8
       run: |
