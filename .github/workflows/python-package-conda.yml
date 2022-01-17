@@ -36,10 +36,14 @@ jobs:
     - name: DVC Pull
       run:
         dvc pull
+    - name: Run API Server
+      run: 
+        
     - name: Test with pytest
       run: |
         conda install pytest
         pytest test.py
+        pytest test_api/test_api.py
 
         
         
