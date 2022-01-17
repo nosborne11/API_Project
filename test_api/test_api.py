@@ -36,7 +36,7 @@ def test_get():
     url = 'http://127.0.0.1:8000/'
     x = requests.get(url)
     assert x.status_code == 200
-    assert x.json()==["Welcome to the Salary Predictor!!!"]
+    assert x.json()==["Welcome to my Machine Learning API"]
 
 
 def test_post_1():
