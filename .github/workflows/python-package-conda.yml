@@ -38,7 +38,7 @@ jobs:
         dvc pull
     - name: Run API Server
       run: 
-        
+        uvicorn main:app
     - name: Test with pytest
       run: |
         conda install pytest
