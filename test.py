@@ -9,36 +9,6 @@ from starter.ml.data import process_data
 from starter.ml.model import  train_model,compute_model_metrics,inference
 from starter.ml import model as model_lib
 
-Input_1={'age': [52],
- 'workclass': ['Self-emp-inc'],
- 'fnlgt': [287927],
- 'education': ['HS-grad'],
- 'education-num': [9],
- 'marital-status': ['Married-civ-spouse'],
- 'occupation': ['Exec-managerial'],
- 'relationship': ['Wife'],
- 'race': ['White'],
- 'sex': ['Female'],
- 'capital-gain': [15024],
- 'capital-loss': [0],
- 'hours-per-week': [40],
- 'native-country': ['United-States']}
-
-Input_2={'age': [50],
- 'workclass': ['Self-emp-not-inc'],
- 'fnlgt': [83311],
- 'education': ['Bachelors'],
- 'education-num': [13],
- 'marital-status': ['Married-civ-spouse'],
- 'occupation': ['Exec-managerial'],
- 'relationship': ['Husband'],
- 'race': ['White'],
- 'sex': ['Male'],
- 'capital-gain': [0],
- 'capital-loss': [0],
- 'hours-per-week': [13],
- 'native-country': ['United-States']}
-
 cat_features = [
     "workclass",
     "education",
@@ -59,43 +29,46 @@ with open("model/encoder.pickle", "rb") as input_file:
 with open("model/1b.pickle", "rb") as input_file:
     Lb=pickle.load(input_file)
 
-def Create_Panda_DF(Input_data):
-    data=pd.DataFrame(Input_data) 
-    return data  
+data_all=pd.read_csv('data/census_modified.csv')
+
 
 def Prediction_Pipe(data_download,encoder_download,lb_download,cat_features):
-    X, y_data, encoder, lb_test = process_data(
-    data_download, categorical_features=cat_features, label=None, training=False, encoder=encoder_download)
-    res=model_lib.inference(model, X)
-    return list(lb_download.inverse_transform(res))
-
-def test_data():
-  data=Create_Panda_DF(Input_1)
-  assert len(data)>0
-
-def test_model():
-  data=Create_Panda_DF(Input_2)
-  Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-  assert model!=None
+    train, test = train_test_split(data_all, test_size=0.20)
+    X_test, y_test, encoder_test, lb_test = process_data(
+    test, categorical_features=cat_features, label="salary", training=False, encoder=encoder_download)
+    res=model_lib.inference(model, X_test)
+    return res,y_test
 
 
-def test_encoder():
-  data=Create_Panda_DF(Input_2)
-  Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-  assert encoder!=None
+def Get_Results(data_all):
+  Out,y_test=Prediction_Pipe(data_all,encoder,Lb,cat_features)
+  res=compute_model_metrics(Lb.transform(y_test).ravel(),Out)
+  return res
+
+def test_Encoder():
+  train, test = train_test_split(data_all, test_size=0.20)
+  X_train, y_train, encoder_train, lb_train = process_data(
+    train, categorical_features=cat_features, label="salary", training=True)
+  assert encoder_train!=None
 
 def test_Lb():
-  data=Create_Panda_DF(Input_2)
-  Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-  assert Lb!=None
+  train, test = train_test_split(data_all, test_size=0.20)
+  X_train, y_train, encoder_train, lb_train = process_data(
+    train, categorical_features=cat_features, label="salary", training=True)
+  assert lb_train!=None
 
-def test_one():
-  data=Create_Panda_DF(Input_1)
-  Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-  assert Out==[">50K"]
+def test_precision():
+  res=Get_Results(data_all)
+  precision=res[0]
+  assert precision>=0.5
 
-def test_two():
-  data=Create_Panda_DF(Input_2)
-  Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-  assert Out==["<=50K"]
+def test_recall():
+  res=Get_Results(data_all)
+  recall=res[1]
+  assert recall>=0.5
+
+def test_fbeta():
+  res=Get_Results(data_all)
+  fbeta=res[1]
+  assert fbeta>=0.5
 
