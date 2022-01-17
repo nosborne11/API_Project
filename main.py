@@ -67,6 +67,42 @@ class Feature_List(BaseModel):
     hours_per_week: Union[int, list] 
     native_country: Union[str, list] 
 
+    class Config:
+        schema_extra = {
+            "example": {'age': [52],
+                        'workclass': ['Self-emp-inc'],
+                        'fnlgt': [287927],
+                        'education': ['HS-grad'],
+                        'education_num': [9],
+                        'marital_status': ['Married-civ-spouse'],
+                        'occupation': ['Exec-managerial'],
+                        'relationship': ['Wife'],
+                        'race': ['White'],
+                        'sex': ['Female'],
+                        'capital_gain': [15024],
+                        'capital_loss': [0],
+                        'hours_per_week': [40],
+                        'native_country': ['United-States']}
+        }
+
+
+# ######test input#######
+# Input={'age': [52],
+#  'workclass': ['Self-emp-inc'],
+#  'fnlgt': [287927],
+#  'education': ['HS-grad'],
+#  'education-num': [9],
+#  'marital-status': ['Married-civ-spouse'],
+#  'occupation': ['Exec-managerial'],
+#  'relationship': ['Wife'],
+#  'race': ['White'],
+#  'sex': ['Female'],
+#  'capital-gain': [15024],
+#  'capital-loss': [0],
+#  'hours-per-week': [40],
+#  'native-country': ['United-States']}
+
+
 
 def Creat_Dict(item):
     Dict={
@@ -88,6 +124,9 @@ def Creat_Dict(item):
     return Dict
 
 
+
+
+
 def Create_Panda_DF(Input_data):
     data=pd.DataFrame(Input_data) 
     return data  
@@ -97,23 +136,6 @@ def Prediction_Pipe(data_download,encoder_download,lb_download,cat_features):
     data_download, categorical_features=cat_features, label=None, training=False, encoder=encoder_download)
     res=model_lib.inference(model, X)
     return list(lb_download.inverse_transform(res))
-
-######test input#######
-Input={'age': [52],
- 'workclass': ['Self-emp-inc'],
- 'fnlgt': [287927],
- 'education': ['HS-grad'],
- 'education-num': [9],
- 'marital-status': ['Married-civ-spouse'],
- 'occupation': ['Exec-managerial'],
- 'relationship': ['Wife'],
- 'race': ['White'],
- 'sex': ['Female'],
- 'capital-gain': [15024],
- 'capital-loss': [0],
- 'hours-per-week': [40],
- 'native-country': ['United-States']}
-
 
 
 # Instantiate the app.
