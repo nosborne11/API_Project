@@ -1,5 +1,5 @@
 import requests
-
+import json as js
 
 Input_1={'age': [52],
  'workclass': ['Self-emp-inc'],
@@ -17,10 +17,10 @@ Input_1={'age': [52],
  'native_country': ['United-States']}
 
 def Run():
-    url = 'http://salary-api-nosborne11.herokuapp.com/'
+    url = 'http://salary-api-nosborne11.herokuapp.com/items/'
     x = requests.post(url,data=js.dumps(Input_1))
     print(f'''Status Code: {x.status_code}''')
-    print(f'''Status Code: {x.json()[0]}''')
+    print(f'''Result: {x.json()[0]}''')
 
 if __name__=='__main__':
     Run()
