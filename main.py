@@ -86,24 +86,6 @@ class Feature_List(BaseModel):
         }
 
 
-# ######test input#######
-# Input={'age': [52],
-#  'workclass': ['Self-emp-inc'],
-#  'fnlgt': [287927],
-#  'education': ['HS-grad'],
-#  'education-num': [9],
-#  'marital-status': ['Married-civ-spouse'],
-#  'occupation': ['Exec-managerial'],
-#  'relationship': ['Wife'],
-#  'race': ['White'],
-#  'sex': ['Female'],
-#  'capital-gain': [15024],
-#  'capital-loss': [0],
-#  'hours-per-week': [40],
-#  'native-country': ['United-States']}
-
-
-
 def Creat_Dict(item):
     Dict={
     "age":item.age,
@@ -153,13 +135,5 @@ async def post_items(item: Feature_List):
     data=Create_Panda_DF(_dict)
     Out=Prediction_Pipe(data,encoder,Lb,cat_features)
     return Out
-
-######Post 
-@app.get("/items/")
-async def run_model():
-    data=Create_Panda_DF(Input)
-    Out=Prediction_Pipe(data,encoder,Lb,cat_features)
-    return Out
-
 
 
